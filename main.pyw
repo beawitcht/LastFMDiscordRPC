@@ -1,12 +1,17 @@
-import time
+import time, os
 import requests
 from pypresence import Presence
 from dotenv import load_dotenv
 
-load_dotenv
+load_dotenv()
+
+client_id = os.getenv("DISCORD_CLIENT_ID")
+lfm_api_key = os.getenv("LASTFM_API_KEY")
+lfm_username = os.getenv("LASTFM_USERNAME")
+interval = int(os.getenv("UPDATE_INTERVAL"))
 
 # Initialize Discord Rich Presence
-rpc = Presence(DISCORD_CLIENT_ID)
+rpc = Presence(client_id)
 rpc.connect()
 
 def get_current_track(username, api_key):
@@ -57,7 +62,7 @@ def update_presence():
     """
     Update the Discord Rich Presence status based on the currently playing track.
     """
-    track = get_current_track(LASTFM_USERNAME, LASTFM_API_KEY)
+    track = get_current_track(lfm_username, lfm_api_key)
 
     if track:
         # Set Discord RPC with track name, artist, album, and extralarge image
@@ -75,7 +80,7 @@ def update_presence():
 try:
     while True:
         update_presence()
-        time.sleep(UPDATE_INTERVAL)
+        time.sleep(interval)
 except KeyboardInterrupt:
     #print("Rich Presence integration stopped.")
     rpc.clear()

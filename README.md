@@ -5,7 +5,7 @@ Sync now scrobbling to discord rich presence with python
 ### create a .env file with the following params
 ```
 DISCORD_CLIENT_ID = "1303088564069863464"  # Replace with your Discord application's client ID or leave default
-LASTFM_API_KEY = "<LAST-FM-KEY-HERE>"  # Replace with your Last.fm API key
+LASTFM_API_KEY = "<LAST-FM-KEY-HERE>"  # Replace with your Last.fm API key create here: https://www.last.fm/api/account/create
 LASTFM_USERNAME = "<LAST-FM-USERNAME-HERE>"  # Replace with the Last.fm username you want to monitor
 UPDATE_INTERVAL = 5  # Update interval in seconds
 ```
