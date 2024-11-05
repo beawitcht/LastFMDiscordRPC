@@ -1,4 +1,5 @@
-import time, os
+import time
+import os
 import requests
 from pypresence import Presence
 from dotenv import load_dotenv
@@ -13,6 +14,7 @@ interval = int(os.getenv("UPDATE_INTERVAL"))
 # Initialize Discord Rich Presence
 rpc = Presence(client_id)
 rpc.connect()
+
 
 def get_current_track(username, api_key):
     """
@@ -39,7 +41,7 @@ def get_current_track(username, api_key):
         artist = track_info['artist']['#text']
         track_name = track_info['name']
         album = track_info['album']['#text']
-        
+
         # Extract the extralarge image URL
         image_data = track_info['image']
         large_image_url = None
@@ -54,9 +56,11 @@ def get_current_track(username, api_key):
             "artist": artist,
             "track_name": track_name,
             "album": album,
-            "large_image_url": large_image_url  # Add the large image URL to the return data
+            # Add the large image URL to the return data
+            "large_image_url": large_image_url 
         }
     return None  # Not currently playing a track
+
 
 def update_presence():
     """
@@ -72,15 +76,16 @@ def update_presence():
             large_image=track['large_image_url'],  # Use the extralarge image URL
             large_text=track['album']
         )
-        #print(f"Updated Discord status: {track['track_name']} by {track['artist']}")
+        # print(f"Updated Discord status: {track['track_name']} by {track['artist']}")
     else:
         rpc.clear()
-        #print("No track currently scrobbling.")
+        # print("No track currently scrobbling.")
+
 
 try:
     while True:
         update_presence()
         time.sleep(interval)
 except KeyboardInterrupt:
-    #print("Rich Presence integration stopped.")
+    # print("Rich Presence integration stopped.")
     rpc.clear()
