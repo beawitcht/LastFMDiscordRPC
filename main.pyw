@@ -49,15 +49,26 @@ def get_current_track(username, api_key):
             if image['size'] == 'large':
                 large_image_url = image['#text']
                 break
-        if (len(artist) + len(track_name)) > 127:
+
+        # use placeholders if no data available
+        if len(large_image_url) == 0:
+            large_image_url = "https://community.mp3tag.de/uploads/default/original/2X/a/acf3edeb055e7b77114f9e393d1edeeda37e50c9.png"
+        if len(artist) == 0:
+            artist = "Unknown Artist"
+        if len(track_name) == 0:
+            track_name = "Untitled Track"
+        if len(album) == 0:
+            album = "Unknown Album"
+
+        if (len(artist) + len(track_name)) > 120:
             artist = artist[:60]
             artist = track_name[:60]
+
         return {
             "artist": artist,
             "track_name": track_name,
             "album": album,
-            # Add the large image URL to the return data
-            "large_image_url": large_image_url 
+            "large_image_url": large_image_url
         }
     return None  # Not currently playing a track
 
@@ -73,7 +84,7 @@ def update_presence():
         rpc.update(
             details=track['track_name'],
             state=f"{track['artist']} - {track['album']}",
-            large_image=track['large_image_url'],  # Use the extralarge image URL
+            large_image=track['large_image_url'],  # Use the large image URL
             large_text=track['album']
         )
         # print(f"Updated Discord status: {track['track_name']} by {track['artist']}")
