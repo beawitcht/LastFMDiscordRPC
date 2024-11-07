@@ -60,9 +60,12 @@ def get_current_track(username, api_key):
         if len(album) == 0:
             album = "Unknown Album"
 
-        if (len(artist) + len(track_name)) > 120:
+        if (len(artist) + len(album)) > 120:
             artist = artist[:60]
             artist = track_name[:60]
+
+        if len(track_name) > 127:
+            track_name = track_name[:120]
 
         return {
             "artist": artist,
