@@ -10,10 +10,16 @@ client_id = os.getenv("DISCORD_CLIENT_ID")
 lfm_api_key = os.getenv("LASTFM_API_KEY")
 lfm_username = os.getenv("LASTFM_USERNAME")
 interval = int(os.getenv("UPDATE_INTERVAL"))
+censored = int(os.getenv("PROFANITY_CENSOR"))
 
 # Initialize Discord Rich Presence
 rpc = Presence(client_id)
 rpc.connect()
+
+# censor profanities
+if censored == 1:
+    from profanityfilter import ProfanityFilter
+    pf = ProfanityFilter()
 
 
 def get_current_track(username, api_key):
@@ -38,9 +44,14 @@ def get_current_track(username, api_key):
 
     # Check if the track is currently playing
     if '@attr' in track_info and 'nowplaying' in track_info['@attr']:
-        artist = track_info['artist']['#text']
-        track_name = track_info['name']
-        album = track_info['album']['#text']
+        if censored == 1:
+            artist = pf.censor(track_info['artist']['#text'])
+            track_name = pf.censor(track_info['name'])
+            album = pf.censor(track_info['album']['#text'])
+        else:
+            artist = track_info['artist']['#text']
+            track_name = track_info['name']
+            album = track_info['album']['#text']
 
         # Extract the extralarge image URL
         image_data = track_info['image']

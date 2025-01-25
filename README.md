@@ -8,6 +8,7 @@ DISCORD_CLIENT_ID = "1303088564069863464"  # Replace with your Discord applicati
 LASTFM_API_KEY = "<LAST-FM-KEY-HERE>"  # Replace with your Last.fm API key create here: https://www.last.fm/api/account/create
 LASTFM_USERNAME = "<LAST-FM-USERNAME-HERE>"  # Replace with the Last.fm username you want to monitor
 UPDATE_INTERVAL = 5  # Update interval in seconds
+PROFANITY_CENSOR = 1 # 1 = filter profanity 0 = disable filter
 ```
 ### install the dependencies in requirements.txt
 
