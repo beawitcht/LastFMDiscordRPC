@@ -107,10 +107,10 @@ def update_presence():
         # print("No track currently scrobbling.")
 
 
-try:
-    while True:
+while True:
+    try:
         update_presence()
         time.sleep(interval)
-except KeyboardInterrupt:
-    # print("Rich Presence integration stopped.")
-    rpc.clear()
+    except Exception:
+        time.sleep(30)
+    continue
